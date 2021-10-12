@@ -1,6 +1,7 @@
-package school.system;
+package SchoolSystem;
 
 import java.util.ArrayList;
+import java.util.Objects;
 import java.util.Scanner;
 
 public class Student {
@@ -10,7 +11,7 @@ public class Student {
     private String YEAR;
     private String STUDENT_ID;
     private ArrayList<String> COURSES = new ArrayList<String>();
-    private int FEES_PAID;
+    private static int FEES_PAID = 0;
     private static int FEES_TO_BE_PAID = 0;
     private static int id = 1000;
 
@@ -23,11 +24,12 @@ public class Student {
         System.out.print("Enter student last name: ");
         this.LAST_NAME = in.nextLine();
 
-        System.out.print("1 - Freshamn\n2 - Sophomore\n3 - Junior\n4 - Senior\nEnter student year:");
+        System.out.print("1 - Freshamn\n2 - Sophomore\n3 - Junior\n4 - Senior\nEnter student year: ");
         this.YEAR = in.nextLine();
 
         setSTUDENT_ID();
         enroll();
+
     }
 
     private void setSTUDENT_ID(){
@@ -72,6 +74,10 @@ public class Student {
                     break;
                 case "0":
                     repeat = true;
+                    System.out.println("Enrolled in:");
+                    for(int i=0; i<this.COURSES.size(); i++){
+                        System.out.println(this.COURSES.get(i));
+                    }
                     System.out.println(this.FEES_TO_BE_PAID + "$ has to be paid");
                     break;
                 default:
@@ -79,5 +85,21 @@ public class Student {
                     break;
             }
         }
+    }
+    private void checkFEES(){
+        System.out.println("Fees left to be paid: "+ (this.FEES_TO_BE_PAID-FEES_PAID)+"$\nWould You like to pay now?\n(1 - Yes\n2 - No");
+        Scanner in = new Scanner(System.in);
+        String check = in.nextLine();
+        if(check.equals("1")){
+            payFEE();
+        }
+
+    }
+    private void payFEE(){
+        System.out.println("Enter amount of fee You want to pay: ");
+        Scanner in = new Scanner(System.in);
+        String amount = in.nextLine();
+        this.FEES_PAID += Integer.valueOf(amount);
+        System.out.println("Fees left to be paid: "+ (this.FEES_TO_BE_PAID-FEES_PAID)+"$");
     }
 }
